@@ -283,6 +283,26 @@ static NSInteger const kJBLineChartUnselectedLineIndex = -1;
 		{
 			[self addSubview:self.linesView];
 		}
+
+		if (self.dataCount < 1) {
+            if (![self shouldHideLabelForEmptyLineChartView:self]) {
+                
+                if (!self.noDataLabel) {
+                    self.noDataLabel = [[UILabel alloc] initWithFrame:linesViewRect];
+                    self.noDataLabel.textColor = [UIColor grayColor];
+                    self.noDataLabel.textAlignment = NSTextAlignmentCenter;
+                }
+                self.noDataLabel.text = [self stringForEmptyLineChartView:self];
+                
+                [self addSubview:self.noDataLabel];
+            }
+            
+            [self.linesView removeFromSuperview];
+        } else {
+            if (self.noDataLabel.superview) {
+                [self.noDataLabel removeFromSuperview];
+            }
+        }
 	};
 	
 	/*
@@ -744,6 +764,25 @@ static NSInteger const kJBLineChartUnselectedLineIndex = -1;
 		return [self.dataSource lineChartView:self dimmedSelectionDotOpacityAtLineIndex:lineIndex];
 	}
 	return kJBLineChartViewDefaultDimmedDotSelectionOpacity;
+}
+
+
+- (BOOL)shouldHideLabelForEmptyLineChartView:(JBLineChartView *)lineChartView {
+    
+    if ([self.dataSource respondsToSelector:@selector(shouldHideLabelForEmptyLineChartView:)])
+    {
+        return [self.dataSource shouldHideLabelForEmptyLineChartView:self];
+    }
+    return NO;
+}
+
+- (NSString*)stringForEmptyLineChartView:(JBLineChartView *)lineChartView {
+
+    if ([self.dataSource respondsToSelector:@selector(shouldHideLabelForEmptyLineChartView:)])
+    {
+        return [self.dataSource stringForEmptyLineChartView:self];
+    }
+    return @"No Data In Range";
 }
 
 #pragma mark - Setters

@@ -148,6 +148,28 @@ typedef NS_ENUM(NSInteger, JBLineChartViewColorStyle) {
  */
 - (BOOL)lineChartView:(JBLineChartView *)lineChartView shouldHideDotViewOnSelectionAtHorizontalIndex:(NSUInteger)horizontalIndex atLineIndex:(NSUInteger)lineIndex;
 
+/**
+ *  Returns whether or not a label should be hidden when no data is plotted.
+ *
+ *  Default: NO.
+ *
+ *  @param lineChartView    The line chart object requesting this information.
+ *
+ *  @return Whether or not a label should be hidden when no data is plotted.
+ */
+- (BOOL)shouldHideLabelForEmptyLineChartView:(JBLineChartView *)lineChartView;
+
+/**
+ *  Returns a string to be displayed when no data is plotted.
+ *
+ *  Default: "No Data In Range"
+ *
+ *  @param lineChartView    The line chart object requesting this information.
+ *
+ *  @return a string to be displayed when no data is plotted.
+ */
+- (NSString*)stringForEmptyLineChartView:(JBLineChartView *)lineChartView;
+
 @end
 
 @protocol JBLineChartViewDelegate <JBChartViewDelegate>
@@ -448,6 +470,7 @@ typedef NS_ENUM(NSInteger, JBLineChartViewColorStyle) {
 
 @property (nonatomic, weak) id<JBLineChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<JBLineChartViewDelegate> delegate;
+@property (nonatomic, strong) UILabel *noDataLabel;
 
 /*
  *  Reloads the line chart with a custom animation.
