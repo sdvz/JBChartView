@@ -291,10 +291,16 @@ static NSInteger const kJBLineChartUnselectedLineIndex = -1;
                     self.noDataLabel = [[UILabel alloc] initWithFrame:linesViewRect];
                     self.noDataLabel.textColor = [UIColor grayColor];
                     self.noDataLabel.textAlignment = NSTextAlignmentCenter;
+                } else {
+                	self.noDataLabel.frame = linesViewRect;
                 }
+
                 self.noDataLabel.text = [self stringForEmptyLineChartView:self];
                 
-                [self addSubview:self.noDataLabel];
+                if (!self.noDataLabel.superview)
+                {
+                	[self addSubview:self.noDataLabel];
+                }
             }
             
             [self.linesView removeFromSuperview];
